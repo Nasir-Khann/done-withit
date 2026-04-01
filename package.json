@@ -1,0 +1,53 @@
+{
+  "name": "donewithit",
+  "license": "0BSD",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^15.0.3",
+    "@lottiefiles/dotlottie-react": "^0.13.5",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-community/hooks": "^100.1.0",
+    "@react-native-community/netinfo": "^12.0.1",
+    "@react-native-masked-view/masked-view": "0.3.2",
+    "@react-native-picker/picker": "2.11.1",
+    "@react-navigation/bottom-tabs": "^7.15.3",
+    "@react-navigation/native": "^7.1.31",
+    "@react-navigation/native-stack": "^7.14.2",
+    "apisauce": "^3.2.2",
+    "expo": "~54.0.33",
+    "expo-blur": "~15.0.8",
+    "expo-constants": "^18.0.13",
+    "expo-device": "~8.0.10",
+    "expo-image": "~3.0.11",
+    "expo-image-picker": "~17.0.10",
+    "expo-location": "~19.0.8",
+    "expo-permissions": "^14.4.0",
+    "expo-status-bar": "~3.0.9",
+    "formik": "^2.4.9",
+    "lottie-react-native": "~7.3.1",
+    "moment": "^2.30.1",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-expo-image-cache": "^4.1.0",
+    "react-native-gesture-handler": "~2.28.0",
+    "react-native-progress": "^5.0.1",
+    "react-native-reanimated": "~4.1.1",
+    "react-native-safe-area-context": "^5.7.0",
+    "react-native-screens": "~4.16.0",
+    "react-native-svg": "15.12.1",
+    "react-native-web": "^0.21.0",
+    "yup": "^1.7.1"
+  },
+  "devDependencies": {
+    "@react-native-community/cli": "latest"
+  },
+  "private": true
+}
