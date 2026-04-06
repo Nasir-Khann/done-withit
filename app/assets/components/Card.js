@@ -1,5 +1,5 @@
-import { View, StyleSheet, Pressable, Image } from 'react-native';
-// import { Image } from 'expo-image';
+import { View, StyleSheet, Pressable } from 'react-native';
+import { Image } from 'expo-image';
 
 import color from '../config/color';  
 import AppText from './AppText';
@@ -9,15 +9,15 @@ function Card({ title, subTitle, imageUrl, onPress }) {
     <Pressable onPress={onPress}>
       <View style={styles.cardContainer}>
         <Image
-          source={{ uri: imageUrl }}           // remote image (http/https)
+          source={{ uri: imageUrl }} 
           style={styles.productImage}
-          // contentFit="cover"
-          // cachePolicy="disk"                   // caching achhi hai
-          // // placeholder ko temporarily hatao ya neeche wala tarika use karo
-          // // placeholder={require('../assets/placeholder.png')}  
-          // transition={300}
-          // onError={(e) => console.log('Image Error:', e)}
-        />
+          
+           contentFit="cover"
+           cachePolicy="disk"                   // caching achhi haio 
+           transition={300}
+          onError={(e) => console.log('Image Error:', e)} 
+          />
+        
         
         <View style={styles.detailContainer}>
           <AppText style={styles.title}>{title}</AppText>
