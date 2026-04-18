@@ -1,23 +1,34 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const useApi = (apiFunc) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const request = async (...args) => {
-    setLoading(true);
-    const response = await apiFunc(...args);
-    setLoading(false);
+  const request = useCallback(
+    async (...args) => {
+      setLoading(true);
 
-    if (!response.ok) {
-      setError(true);
-      return;
-    }
+      try {
+        const response = await apiFunc(...args);
 
-    setError(false);
-    setData(response.data);
-  };
+        if (!response?.ok) {
+          setError(true);
+          return response;
+        }
+
+        setError(false);
+        setData(response.data);
+        return response;
+      } catch (error) {
+        setError(true);
+        return { ok: false, problem: "NETWORK_ERROR", error };
+      } finally {
+        setLoading(false);
+      }
+    },
+    [apiFunc],
+  );
 
   return { data, loading, error, request };
 };

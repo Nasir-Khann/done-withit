@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import * as yup from "yup";
 import listingsApi from "../../api/listings";
 
@@ -80,16 +81,29 @@ const categories = [
 ];
 
 export default function ListingEditScreen() {
+  const navigation = useNavigation();
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgess] = useState(0);
+
+  const handleUploadDone = () => {
+    setUploadVisible(false);
+    navigation.navigate("Feed");
+  };
 
   const handleSubmit = async (listing, { resetForm }) => {
     setProgess(0);
     setUploadVisible(true);
 
     const result = await listingsApi.addListing(listing, (progress) => {
-        console.log("upload progress:", progress);
-        setProgess(progress);
+      console.log("upload progress:", progress);
+      setProgess(progress);
+    });
+
+    console.log("addListing response:", {
+      ok: result.ok,
+      status: result.status,
+      problem: result.problem,
+      data: result.data,
     });
 
     if (!result.ok) {
@@ -97,14 +111,14 @@ export default function ListingEditScreen() {
       return alert("Could not save the listing");
     }
 
-    // setUploadVisible(false);
+    setProgess(1);
     resetForm();
   };
 
   return (
     <Screen style={styles.main}>
       <UploadScreen
-        onDone={() => setUploadVisible(false)}
+        onDone={handleUploadDone}
         progress={progress}
         visible={uploadVisible}
       />
@@ -122,11 +136,7 @@ export default function ListingEditScreen() {
       >
         <FormImagePicker name="images" />
 
-        <AppFormikField
-          maxLength={255}
-          name="title"
-          placeholder="Title"
-        />
+        <AppFormikField maxLength={255} name="title" placeholder="Title" />
 
         <AppFormikField
           width={120}

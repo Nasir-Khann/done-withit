@@ -1,8 +1,8 @@
-import client from './client';
+import client from "./client";
 
-const endPoint = '/listings'
+const endPoint = "/listings";
 
-const getListings = () => client.get(endPoint)
+const getListings = () => client.get(endPoint);
 // const addListing = (listings, onUploadProgress) => {
 //     const data = new FormData();
 //     data.append('title', listings.title);
@@ -18,12 +18,11 @@ const getListings = () => client.get(endPoint)
 //         });
 //     });
 
-
 //     return client.post(endPoint, data, {
 //         onUploadProgress:(progess) => {
 //             onUploadProgress(progess.loaded/progess.total);
 //         }
-        
+
 //     });
 // //     return client.post(endPoint, data, {
 // //   onUploadProgress: (progressEvent) => {
@@ -37,13 +36,13 @@ const getListings = () => client.get(endPoint)
 const addListing = async (listing, onUploadProgress) => {
   const data = new FormData();
 
-  data.append("title", listing.title);
-  data.append("price", listing.price);
-  data.append("categoryId", listing.category.value);
-  data.append("description", listing.description);
+  data.append("title", listing.title?.trim?.() || "");
+  data.append("price", String(listing.price));
+  data.append("categoryId", String(listing.category?.value));
+  data.append("description", listing.description || "");
 
   for (let index = 0; index < listing.images.length; index++) {
-    const image = listing.images[index];// 
+    const image = listing.images[index]; //
 
     console.log("single image:", image);
 
@@ -53,15 +52,20 @@ const addListing = async (listing, onUploadProgress) => {
 
       data.append("images", blob, `image${index}.jpg`);
     } else {
+      const imageUri = typeof image === "string" ? image : image?.uri;
+
       data.append("images", {
         name: `image${index}.jpg`,
         type: "image/jpeg",
-        uri: typeof image === "string" ? image : image.uri,
+        uri: imageUri,
       });
     }
   }
 
-  return client.post(endPoint, data, {
+  const response = await client.post(endPoint, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
     onUploadProgress: (progressEvent) => {
       console.log("progressEvent:", progressEvent);
       console.log("loaded:", progressEvent.loaded);
@@ -72,8 +76,19 @@ const addListing = async (listing, onUploadProgress) => {
       }
     },
   });
+
+  if (!response.ok) {
+    console.log("addListing failed:", {
+      status: response.status,
+      problem: response.problem,
+      data: response.data,
+      originalError: response.originalError?.message,
+    });
+  }
+
+  return response;
 };
 export default {
-    getListings,
-    addListing
-}
+  getListings,
+  addListing,
+};
